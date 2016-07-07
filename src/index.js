@@ -1,9 +1,11 @@
 import 'reflect-metadata'
 import 'zone.js'
-import 'material-design-lite'
+import 'style!css!less!font-awesome-webpack/font-awesome-styles.loader!font-awesome-webpack/font-awesome.config.js'
+import 'chart.js/dist/Chart.bundle.min.js'
 
 import { bootstrap } from '@angular/platform-browser-dynamic'
 
-import { BenzeneUiComponent } from './benzene'
+import Benzene from './benzene'
 
-bootstrap(BenzeneUiComponent)
+addEventListener('load', () => bootstrap(Benzene, [
+]))

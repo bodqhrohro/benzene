@@ -1,21 +1,83 @@
 import gulp from 'gulp'
-import uglify from 'gulp-uglify'
 
-import source from 'vinyl-source-stream'
-import buffer from 'vinyl-buffer'
+import del from 'del'
 
-import browserify from 'browserify'
-import babelify from 'babelify'
+import webpack from 'webpack'
+import combineLoaders from 'webpack-combine-loaders'
 
 gulp.task('build', () => {
-	browserify('src/index.js')
-		.transform(babelify)
-		.bundle()
-		.on('error', e => console.error(e.stack))
-		.pipe(source('bundle.js'))
-		//.pipe(buffer())
-		//.pipe(uglify())
-		.pipe(gulp.dest('build/js'))
+	gulp.src('./node_modules/material-design-icons/images/sprite-communication-black.PNG')
+		.pipe(gulp.dest('./build/images'))
+
+	webpack({
+		entry: './src/index.js',
+		output: {
+			filename: 'bundle.js',
+			path: './build/js'
+		},
+		module: {
+			loaders: [
+				{
+					test: /\.js$/,
+					loader: combineLoaders([
+						{
+							loader: 'babel',
+							query: {
+								cacheDirectory: './cache',
+								babelrc: false,
+								presets: [
+									'es2015-native-modules',
+									'angular2'
+								]
+							}
+						},
+						{
+							loader: 'angular2-template-loader'
+						}
+					]),
+					exclude: /node_modules/,
+				},
+				{
+					test: /\.json$/,
+					loader: 'json-loader'
+				},
+				{
+					test: /\.(html|css)$/,
+					loader: 'raw-loader'
+				},
+				{
+					test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+					loader: "url-loader?limit=10000&minetype=application/font-woff&name=./build/js/[hash].[ext]"
+				},
+				{
+					test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+					loader: "file-loader?name=./build/js/[hash].[ext]"
+				}
+			]
+		},
+		devtool: false,
+		cache: true,
+		plugins: [
+			/*new webpack.optimize.UglifyJsPlugin({
+				mangle: {
+					except: [ 'exports', 'require' ],
+					eval: true,
+					toplevel: true
+				},
+				compress: {
+					dead_code: true,
+					booleans: true
+				}
+			})*/
+		]
+	}, (err, stats) => {
+		err && console.error(err)
+                console.log(stats.toString({ colors: true }))
+	})
+})
+
+gulp.task('clean', () => {
+	del([ './build/js/*' ])
 })
 
 gulp.task('default', [ 'build' ])

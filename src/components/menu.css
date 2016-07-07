@@ -1,0 +1,9 @@
+.ui.vertical.menu {
+	width: 100%;
+}
+
+:host >>> .content {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
