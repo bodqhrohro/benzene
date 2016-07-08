@@ -9,6 +9,6 @@ Installation
 1. Clone this repo.
 1. Open a *nix shell.
 1. Run `npm i`.
-1. If the dependency installation was successfull, run `gulp`. Webpack returns its output at build finish, so be patient.
-1. Install Node Web Server (`npm install -g nws`, preceed with `sudo ` for sure) and run `nws -p 2514 -d build &`.
+1. If the dependency installation was successfull, install gulp (`npm install -g gulp`, preceed with `sudo ` for sure) and run `gulp`. Webpack returns its output at build finish, so be patient.
+1. Install Node Web Server (`npm install -g nws`) and run `nws -p 2514 -d build &`.
 1. Open a browser and go to http://localhost:2514/index.htm to see the UI. If you have an external IP you may open it on another machine as well or use a tunnel broker.
