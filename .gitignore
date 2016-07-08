@@ -1,4 +1,6 @@
 .*.sw?
 
+build/*
+!build/*/
 build/js/[^.]*
 cache/[^.]*

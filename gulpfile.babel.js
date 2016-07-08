@@ -8,6 +8,8 @@ import combineLoaders from 'webpack-combine-loaders'
 gulp.task('build', () => {
 	gulp.src('./node_modules/material-design-icons/images/sprite-communication-black.PNG')
 		.pipe(gulp.dest('./build/images'))
+	gulp.src('./src/index.htm')
+		.pipe(gulp.dest('./build'))
 
 	webpack({
 		entry: './src/index.js',
@@ -47,11 +49,11 @@ gulp.task('build', () => {
 				},
 				{
 					test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-					loader: "url-loader?limit=10000&minetype=application/font-woff&name=./build/js/[hash].[ext]"
+					loader: "url-loader?limit=10000&minetype=application/font-woff&name=./[hash].[ext]"
 				},
 				{
 					test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-					loader: "file-loader?name=./build/js/[hash].[ext]"
+					loader: "file-loader?name=./[hash].[ext]"
 				}
 			]
 		},
